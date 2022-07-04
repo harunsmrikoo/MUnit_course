@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="getString" doc:id="381bd706-40f5-4c97-87ba-d733a8b67770" >
+		<http:listener doc:name="HTTP GET" doc:id="fe16c627-8e7d-4b97-bf0c-f34cf533fbb8" config-ref="HTTP_Listener_config" path="/assert-string" allowedMethods="GET"/>
+		<set-payload value='#[%dw 2.0&#10;&#10;output text/plain&#10;---&#10;"Mulesoft"]' doc:name="Set Payload - String" doc:id="42d64ba7-050d-450b-9ca5-d5c0767b3bc9" />
+		<logger level="INFO" doc:name="Log Payload" doc:id="49b88318-4d0d-454b-bed7-f7d3d2bd79ed" message="#[payload]"/>
+	</flow>
+	<flow name="getJSONObject" doc:id="8ed91712-c828-4e23-9bb4-0cafcff796b7" >
+		<http:listener doc:name="HTTP GET" doc:id="ab239210-24af-41af-8754-815dc98ea44a" config-ref="HTTP_Listener_config" path="/assert-json" allowedMethods="GET" />
+		<set-payload value='#[%dw 2.0&#10;&#10;output application/json&#10;---&#10;{&#10;	"name": "Madonna",&#10;	"hospital": "CUF",&#10;	"category": "gynaecology",&#10;	"availability": "9.00 a.m - 11.00 a.m",&#10;	"fee": "500"&#10;}]' doc:name="Set Payload" doc:id="b9654ac1-4ff2-4789-ad99-f392f38d66cf" />
+		<logger level="INFO" doc:name="Log Payload" doc:id="d2950e1a-e81b-4504-8d2b-a98d8a223139" message="#[payload]" />
+	</flow>
+	<flow name="getArray" doc:id="7e4a5f58-6ea9-4613-943f-623fe37007fd" >
+		<http:listener doc:name="HTTP GET" doc:id="2b54ea02-29eb-465d-ade4-cdd013ce871c" config-ref="HTTP_Listener_config" path="/assert-array" allowedMethods="GET" />
+		<set-payload value='#[["Mulesoft", "Cristiano Ronaldo", "Bill Gates", "Nelson Dias"]]' doc:name="Set Payload - Array" doc:id="957f395f-26dd-47cd-a23b-dbbc4a559238" />
+		<logger level="INFO" doc:name="Log Payload" doc:id="08437a53-ba8e-41da-beba-82d937e6dd42" message="#[payload]" />
+	</flow>
+</mule>

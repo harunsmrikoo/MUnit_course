@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_8ed91712_c828_4e23_9bb4_0cafcff796b7_Output_Variables_medicalCategories = Any
+
