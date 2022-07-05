@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="6.munit-set-event-test-suite.xml" />
+	<munit:test name="clientValidationInsuccessTestCase" doc:id="67790d9e-8f09-4b0d-87ef-da5a9f053e73" description="Test">
+		<munit:execution >
+			<munit:set-event doc:name='Set Event - payload with district "PORTO"' doc:id="e0af0f97-1a85-4861-99cb-6685dd3f8f17" >
+				<munit:payload value='#[&#10;	{&#10;    "name": "nelson",&#10;    "email": "nelson@data.com",&#10;    "hospital": "CUF",&#10;    "age": "32",&#10;    "district": "Porto",&#10;    "category": "dermatology"&#10;}&#10;]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to validateLisbonDistrict" doc:id="e6320bb1-b228-40a6-a8f9-733fc1476237" name="validateLisbonDistrict"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that - vars.validateClient is FALSE" doc:id="96e53fb3-9193-43c4-8f8a-2e7368e80f1a" expression="#[vars.validateClient]" is="#[MunitTools::equalTo(false)]" message='"vars.validateClient is FALSE"'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="clientValidationSuccessTestCase" doc:id="5d5abc87-c2f6-4c95-8826-a299bc2f5497" >
+		<munit:execution >
+			<munit:set-event doc:name='Set Event - payload with district "LISBON"' doc:id="3fda2358-e482-48b1-973e-2ed75d3d697b">
+				<munit:payload value='#[&#10;	{&#10;    "name": "nelson",&#10;    "email": "nelson@data.com",&#10;    "hospital": "CUF",&#10;    "age": "32",&#10;    "district": "Lisbon",&#10;    "category": "dermatology"&#10;}&#10;]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to validateLisbonDistrict" doc:id="48881484-3226-4ead-b60d-81e531312c81" name="validateLisbonDistrict"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that - vars.validateClient is TRUE" doc:id="6693ee20-e322-4f14-851e-b3840dd08122" message='"vars.validateClient is FALSE"' expression="#[vars.validateClient]" is="#[MunitTools::equalTo(true)]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="generateClientUUIDInsuccessTestCase" doc:id="cc4f132f-e622-4623-b137-7cb3bc91a319" expectedErrorDescription="INVALID CLIENT DATA ">
+		<munit:execution >
+			<munit:set-event doc:name="Set Event - vars.validateClient is FALSE" doc:id="7df58913-a128-4e7b-ba16-2a903f08664a" >
+				<munit:variables >
+					<munit:variable key="validateClient" value="#[false]" />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow Reference - generateClientUUID" doc:id="5406da92-bb64-4e4e-880d-f6f3a7be57b9" name="generateClientUUID"/>
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Log clientUUID" doc:id="47c4b284-5423-4ea9-b1d3-77b59715044a" message="#[vars.clientUUID]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="generateClientUUIDSuccessTestCase" doc:id="03ff053b-2a94-4f98-a7ff-5ddda148a562" >
+		<munit:execution >
+			<munit:set-event doc:name="Set Event - vars.validateClient is FALSE" doc:id="fa7c3cec-ea7c-424e-8def-689d3854fdd5" >
+				<munit:variables >
+					<munit:variable key="validateClient" value="#[true]" />
+				</munit:variables>
+			</munit:set-event>
+			<flow-ref doc:name="Flow Reference - generateClientUUID" doc:id="2509ca01-dfb3-4b74-bffd-622c956dda69" name="generateClientUUID"/>
+		</munit:execution>
+	</munit:test>
+
+
+</mule>
