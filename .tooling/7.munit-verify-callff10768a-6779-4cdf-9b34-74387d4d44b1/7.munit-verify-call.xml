@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="getUserNameByID" doc:id="911fb9fb-f1ed-46b9-9bc2-a5b1461d5696" >
+		<http:listener doc:name="HTTP GET" doc:id="af5e4607-8765-450b-a281-940f02bf17ae" config-ref="HTTP_Listener_config" path="/client/{userID}" allowedMethods="GET"/>
+		<logger level="INFO" doc:name="Log START" doc:id="5b843490-830c-43c3-8ec4-81059245d882" message='#["LOG START"]'/>
+		<set-payload value="#[attributes.uriParams.userID]" doc:name="Set Payload - userID" doc:id="e7ba5465-de0b-4115-b9f3-1a66eb1ce076" />
+		<logger level="INFO" doc:name="Log payload - userID" doc:id="7a1cd936-c63f-4b16-89a8-4105b4cd4f87" message='#[%dw 2.0&#10;&#10;output application/json&#10;---&#10;{&#10;	"userID": payload&#10;}]'/>
+		<flow-ref doc:name="Flow Reference - getUserName" doc:id="8c7cf064-1bd8-4722-bbb2-c28a1bc73a66" name="getUserName"/>
+		<logger level="INFO" doc:name="Log END" doc:id="e77ec2b5-54dc-40f7-a9b4-e749eeceb4c9" message='#["LOG END"]'/>
+	</flow>
+	<flow name="getUserName" doc:id="6341db57-739e-4f33-92bb-59f8ccbfe9c0" >
+		<choice doc:name="Choice" doc:id="189d6a2f-1732-4f5f-a945-3ad938a8291a" >
+			<when />
+		</choice>
+	</flow>
+</mule>
