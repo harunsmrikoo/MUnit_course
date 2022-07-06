@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_1064fb23_e165_4c07_83d3_ed2d126ee23c_Output_Payload = Number
+
